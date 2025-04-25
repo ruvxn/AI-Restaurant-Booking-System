@@ -1,0 +1,14 @@
+#Restaurant 0001 - Tasty Food
+restaurant_info = {
+    "restaurant_id": "0001",
+    "restaurant_name": "Tasty Food",
+    "categories": ["Italian", "Pizza"],
+    "base_price": 25.0,
+    "total_seats": 50,
+    "location": {
+        "latitude": -37.8136,
+        "longitude": 144.9631,
+        "distance_to_cbd_km": 1.5
+    }
+}
+
