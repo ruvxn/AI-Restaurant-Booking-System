@@ -1,1 +1,0 @@
-import '..css/PartnerProfile.css';
