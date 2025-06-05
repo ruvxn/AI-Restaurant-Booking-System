@@ -1,38 +1,72 @@
+import { useState } from 'react';
 import '../css/Discounts.css';
 
+const initialData = [
+  {
+    name: "Couple Set",
+    times: [
+      { time: "10AM - 12PM", discount: 30, checked: false },
+      { time: "2PM - 5PM", discount: 50, checked: false },
+      { time: "6PM - 9PM", discount: 20, checked: false }
+    ]
+  },
+  {
+    name: "Family Set",
+    times: [
+      { time: "10AM - 12PM", discount: 20, checked: false },
+      { time: "2PM - 5PM", discount: 30, checked: false },
+      { time: "6PM - 9PM", discount: 10, checked: false }
+    ]
+  }
+];
 
 function Discounts() {
+  const [discountData, setDiscountData] = useState(initialData);
+
+  const handleCheckbox = (menuIndex, timeIndex) => {
+    const updated = [...discountData];
+    updated[menuIndex].times[timeIndex].checked = !updated[menuIndex].times[timeIndex].checked;
+    setDiscountData(updated);
+  };
+
+  const handleAccept = (menuIndex) => {
+    const acceptedTimes = discountData[menuIndex].times.filter(t => t.checked);
+    console.log(`Accepted for ${discountData[menuIndex].name}:`, acceptedTimes);
+    alert(`Accepted selected times for ${discountData[menuIndex].name}`);
+  };
+
+  const handleReject = (menuIndex) => {
+    const updated = [...discountData];
+    updated[menuIndex].times.forEach(t => t.checked = false);
+    setDiscountData(updated);
+    alert(`Rejected all suggestions for ${discountData[menuIndex].name}`);
+  };
+
   return (
     <div className="discounts-container">
-      <div className="discount-card">
-        <h2>Morning 30%</h2>
-        <p>Select time slots to apply the discount:</p>
-        <div className="slot">
-          <span className="badge">A</span> 9 am – 11 am <input type="checkbox" defaultChecked />
+      {discountData.map((set, setIndex) => (
+        <div className="discount-card" key={setIndex}>
+          <h2>{set.name}</h2>
+          {set.times.map((slot, timeIndex) => (
+            <div className="slot-checkbox" key={timeIndex}>
+              <div className="slot-info">
+                <span className="badge">{String.fromCharCode(65 + timeIndex)}</span>
+                <span className="slot-time">{slot.time}</span>
+                <span className="slot-discount">{slot.discount}%</span>
+              </div>
+              <input
+                type="checkbox"
+                checked={slot.checked}
+                onChange={() => handleCheckbox(setIndex, timeIndex)}
+              />
+            </div>
+          ))}
+          <div className="actions">
+            <button className="reject" onClick={() => handleReject(setIndex)}>Reject</button>
+            <button className="accept" onClick={() => handleAccept(setIndex)}>Accept</button>
+          </div>
         </div>
-        <div className="slot">
-          <span className="badge">B</span> 10 am – 12 pm <input type="checkbox" defaultChecked />
-        </div>
-        <div className="actions">
-          <button className="reject">Reject</button>
-          <button className="accept">Accept</button>
-        </div>
-      </div>
-
-      <div className="discount-card">
-        <h2>Afternoon 50%</h2>
-        <p>Select time slots to apply the discount:</p>
-        <div className="slot">
-          <span className="badge">A</span> 1 pm – 3 pm <input type="checkbox" defaultChecked />
-        </div>
-        <div className="slot">
-          <span className="badge">A</span> 5 pm – 7 pm <input type="checkbox" defaultChecked />
-        </div>
-        <div className="actions">
-          <button className="reject">Reject</button>
-          <button className="accept">Accept</button>
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

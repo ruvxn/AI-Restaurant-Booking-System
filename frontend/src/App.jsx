@@ -8,7 +8,8 @@ import Menu from './pages/Menu';
 import UserLayout from './layouts/UserLayout';
 import PartnerLayout from './layouts/PartnerLayout';
 import UserDiscounts from './pages/UserDiscounts';
-import UserProfile from './pages/UserProfile'; // <-- Add this import!
+import UserProfile from './pages/UserProfile';
+import PartnerProfile from './pages/PartnerProfile';
 import './css/Discounts.css';
 import './css/Auth.css';
 import './App.css';
@@ -71,10 +72,10 @@ function App() {
                 }
               />
               <Route
-                path="/business"
+                path="/partner"
                 element={
                   <PartnerLayout onLogout={handleLogout}>
-                    {/* Business component here if any */}
+                    < PartnerProfile />
                   </PartnerLayout>
                 }
               />

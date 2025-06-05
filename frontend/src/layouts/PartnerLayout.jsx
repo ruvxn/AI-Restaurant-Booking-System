@@ -22,7 +22,7 @@ function Topbar({ onLogout }) {
     '/dashboard': 'Dashboard',
     '/discounts': 'Discounts',
     '/menu': 'Menu',
-    '/business': 'Business Profile',
+    '/partner': 'Partner Profile',
   };
 
   const title = pathTitles[location.pathname] || 'Administrator Page';
@@ -31,7 +31,7 @@ function Topbar({ onLogout }) {
     <header className="topbar">
       <h2>{title}</h2>
       <div className="topbar-icons">
-        <span role="img" aria-label="user" onClick={() => navigate('/business')} style={{ cursor: 'pointer' }}>👤</span>
+        <span role="img" aria-label="user" onClick={() => navigate('/partner')} style={{ cursor: 'pointer' }}>👤</span>
         <span role="img" aria-label="logout" onClick={onLogout} style={{ cursor: 'pointer' }}>↩</span>
       </div>
     </header>

@@ -18,7 +18,7 @@ function Login({ onLogin }) {
 
   return (
     <div className="auth-page">
-      <div className="auth-form-container">
+      <div className="login-form-container">
         <h2>Login to LetzEat</h2>
 
         <div className="account-type-toggle">
@@ -36,12 +36,12 @@ function Login({ onLogin }) {
           </button>
         </div>
 
-        <form className="auth-form" onSubmit={handleLogin}>
-          <label>Username</label>
-          <input type="text" placeholder="Enter your username" required />
+        <form className="login-form" onSubmit={handleLogin}>
+          <label htmlFor="login-username">Username</label>
+          <input id="login-username" type="text" placeholder="Enter your username" required />
 
-          <label>Password</label>
-          <input type="password" placeholder="Enter your password" required />
+          <label htmlFor="login-password">Password</label>
+          <input id="login-password" type="password" placeholder="Enter your password" required />
 
           <button type="submit">Login</button>
         </form>
