@@ -1,0 +1,65 @@
+.user-layout {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f7f7fb;
+  min-height: 100vh;
+}
+
+.user-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, #ff512f, #dd2476);
+  height: 80px;
+  padding: 0 2rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.user-logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+  height: 100%;
+}
+
+.user-links {
+  display: flex;
+  align-items: center;
+}
+
+.user-links a {
+  margin-left: 1.5rem;
+  text-decoration: none;
+  font-weight: 500;
+  color: white;
+  font-size: 0.95rem;
+  transition: opacity 0.3s;
+}
+
+.user-links a:hover {
+  opacity: 0.85;
+}
+
+.logout-btn {
+  margin-left: 1.5rem;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #ff512f;
+  background-color: #ffffff;
+  border: 1px solid #ff512f;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #ff512f;
+  color: white;
+}
+
+.user-content {
+  padding: 2rem;
+}
