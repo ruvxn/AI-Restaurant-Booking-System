@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GoHeart, GoHeartFill } from "react-icons/go";
 import "../css/Home.css";
 
 const restaurants = [
@@ -28,6 +29,15 @@ const restaurants = [
 
 function Home() {
   const navigate = useNavigate();
+  const [favorites, setFavorites] = useState({});
+
+  const toggleFavorite = (id, e) => {
+    e.stopPropagation(); // Prevent card click
+    setFavorites((prev) => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
 
   return (
     <div className="user-content">
@@ -39,8 +49,13 @@ function Home() {
           <div
             key={r.id}
             className="restaurant-card"
-            onClick={() => navigate(`/menu/${r.id}`)}
+            onClick={() => navigate(`/restaurant/${r.id}`)}
           >
+            {/* Heart Icon */}
+            <div className="heart-icon" onClick={(e) => toggleFavorite(r.id, e)}>
+              {favorites[r.id] ? <GoHeartFill size={22} color="crimson" /> : <GoHeart size={22} />}
+            </div>
+
             <img src={r.image} alt={r.name} className="restaurant-image" />
             <div className="restaurant-info">
               <h2 className="restaurant-name">{r.name}</h2>

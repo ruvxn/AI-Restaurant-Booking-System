@@ -10,6 +10,7 @@ import PartnerLayout from './layouts/PartnerLayout';
 import UserDiscounts from './pages/UserDiscounts';
 import UserProfile from './pages/UserProfile';
 import PartnerProfile from './pages/PartnerProfile';
+import RestaurantInfo from './pages/RestaurantInfo';
 import './css/Discounts.css';
 import './css/Auth.css';
 import './App.css';
@@ -96,6 +97,14 @@ function App() {
                 element={
                   <UserLayout onLogout={handleLogout}>
                     <Menu />
+                  </UserLayout>
+                }
+              />
+              <Route
+                path="/restaurant/:id"
+                element={
+                  <UserLayout onLogout={handleLogout}>
+                    <RestaurantInfo /> {/* Not Menu component anymore */}
                   </UserLayout>
                 }
               />
