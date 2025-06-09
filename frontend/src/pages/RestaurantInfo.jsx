@@ -31,7 +31,7 @@ const sampleRestaurants = {
 
 function RestaurantInfo() {
   const { id } = useParams();
-  const navigate = useNavigate(); // ✅ ADD THIS
+  const navigate = useNavigate();
   const restaurant = sampleRestaurants[id];
   const menuRef = useRef(null);
 
