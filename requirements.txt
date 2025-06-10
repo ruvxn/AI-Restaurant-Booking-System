@@ -1,0 +1,22 @@
+# Core 
+pandas
+numpy
+scikit-learn
+xgboost
+
+# For JSON + MongoDB handling
+pymongo
+python-dotenv
+
+
+joblib
+
+#date parser
+python-dateutil
+
+# Jupyter kernel (for notebook environments)
+ipykernel
+
+# Optional (for visualization, if needed later)
+matplotlib
+seaborn
