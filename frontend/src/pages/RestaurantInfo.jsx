@@ -25,6 +25,11 @@ const sampleRestaurants = {
       { user: "Alice", comment: "Amazing steak and cozy atmosphere!" },
       { user: "Bob", comment: "Loved the service and food." }
     ],
+    discounts: [
+      { time: "11:00am - 12:00pm", percent: 10 },
+      { time: "2:00pm - 3:00pm", percent: 20 },
+      { time: "6:00pm - 8:00pm", percent: 30 }
+    ],
     about: "Sunset Grill is known for its fine western cuisine and stunning sunset views from the dining hall. We pride ourselves on fresh ingredients and elegant presentation."
   }
 };
@@ -37,12 +42,9 @@ function RestaurantInfo() {
 
   const [people, setPeople] = useState(2);
   const [date, setDate] = useState("");
+  const [selectedDiscount, setSelectedDiscount] = useState(null);
 
   if (!restaurant) return <div>Restaurant not found.</div>;
-
-  const scrollToMenu = () => {
-    menuRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
 
   return (
     <div className="restaurant-info-page">
@@ -65,13 +67,30 @@ function RestaurantInfo() {
             />
           </label>
           <label>
-            Date:
+            Date and Time:
             <input
-              type="date"
+              type="datetime-local"
               value={date}
               onChange={(e) => setDate(e.target.value)}
             />
           </label>
+
+          {/* Discount Buttons */}
+          <div className="available-discounts">
+            <h4>Available Discounts</h4>
+            <div className="discount-buttons">
+              {restaurant.discounts.map((d, idx) => (
+                <button
+                  key={idx}
+                  className={`discount-button ${selectedDiscount === idx ? "selected" : ""}`}
+                  onClick={() => setSelectedDiscount(idx)}
+                >
+                  {d.time} - {d.percent}%
+                </button>
+              ))}
+            </div>
+          </div>
+
           <button
             className="booking-next-button"
             onClick={() => navigate(`/menu/${id}`)}

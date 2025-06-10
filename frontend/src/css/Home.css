@@ -40,7 +40,7 @@
   flex-direction: column;
   transition: box-shadow 0.2s, transform 0.2s;
   cursor: pointer;
-  position: relative; /* Needed for heart icon positioning */
+  position: relative; /* Needed for heart icon and badge positioning */
 }
 
 .restaurant-card:hover {
@@ -83,14 +83,14 @@
   font-size: 0.97rem;
 }
 
-/* Heart icon (GoHeart / GoHeartFill) */
+/* Wishlist */
 .heart-icon {
   position: absolute;
   top: 12px;
   right: 12px;
   z-index: 10;
   background: white;
-  color:#181818;
+  color: #181818;
   border-radius: 999px;
   padding: 4px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -103,4 +103,19 @@
 
 .heart-icon:hover {
   background: #ffe6ec;
+}
+
+/* Discount Badge */
+.discount-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #e91e63;
+  color: white;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  z-index: 9;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }

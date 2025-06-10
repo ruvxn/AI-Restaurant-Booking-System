@@ -9,6 +9,7 @@ const restaurants = [
     name: "Sunset Grill",
     cuisine: "Western",
     hours: "10:00am - 10:00pm",
+    maxDiscount: 30,
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
   },
   {
@@ -16,6 +17,7 @@ const restaurants = [
     name: "Pasta Place",
     cuisine: "Italian",
     hours: "11:00am - 11:00pm",
+    maxDiscount: 20,
     image: "https://images.pexels.com/photos/6193381/pexels-photo-6193381.jpeg?auto=compress&w=800&q=80"
   },
   {
@@ -23,20 +25,19 @@ const restaurants = [
     name: "Sushi House",
     cuisine: "Japanese",
     hours: "12:00pm - 9:00pm",
+    maxDiscount: 10,
     image: "https://images.pexels.com/photos/31326827/pexels-photo-31326827.jpeg?auto=compress&w=800&q=80"
   }
 ];
 
 function Home() {
   const navigate = useNavigate();
-  const [favorites, setFavorites] = useState({});
+  const [favorites, setFavorites] = useState([]);
 
-  const toggleFavorite = (id, e) => {
-    e.stopPropagation(); // Prevent card click
-    setFavorites((prev) => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
+  const toggleFavorite = (id) => {
+    setFavorites(prev =>
+      prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]
+    );
   };
 
   return (
@@ -46,14 +47,19 @@ function Home() {
 
       <div className="restaurant-cards-row">
         {restaurants.map(r => (
-          <div
-            key={r.id}
-            className="restaurant-card"
-            onClick={() => navigate(`/restaurant/${r.id}`)}
-          >
+          <div key={r.id} className="restaurant-card" onClick={() => navigate(`/restaurant/${r.id}`)}>
+            {/* Discount Badge */}
+            <div className="discount-badge">Up to {r.maxDiscount}%</div>
+
             {/* Heart Icon */}
-            <div className="heart-icon" onClick={(e) => toggleFavorite(r.id, e)}>
-              {favorites[r.id] ? <GoHeartFill size={22} color="crimson" /> : <GoHeart size={22} />}
+            <div
+              className="heart-icon"
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleFavorite(r.id);
+              }}
+            >
+              {favorites.includes(r.id) ? <GoHeartFill size={20} /> : <GoHeart size={20} />}
             </div>
 
             <img src={r.image} alt={r.name} className="restaurant-image" />
