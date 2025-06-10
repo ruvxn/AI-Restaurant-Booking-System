@@ -172,3 +172,46 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+# macOS system files
+.DS_Store
+
+# Jupyter-related files and folders
+.ipynb_checkpoints/
+__pycache__/
+*.ipynb
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.bak
+*.tmp
+*.log
+
+# VS Code
+.vscode/
+
+# Python environments
+env/
+venv/
+ENV/
+.venv/
+*.egg-info/
+dist/
+build/
+
+XGvenv/
+
+
+# Node.js (if used in frontend)
+node_modules/
+
+# System generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# JupyterLab auto-generated assets
+**/.jupyter/lab/**/static/
+**/.jupyter/lab/**/schemas/
+**/.jupyter/lab/**/workspaces/
+**/.jupyter/lab/**/translation-extensions/
