@@ -77,7 +77,7 @@ function RestaurantInfo() {
 
           {/* Discount Buttons */}
           <div className="available-discounts">
-            <h4>Available Discounts</h4>
+            <h4>Today's Available Discounts</h4>
             <div className="discount-buttons">
               {restaurant.discounts.map((d, idx) => (
                 <button

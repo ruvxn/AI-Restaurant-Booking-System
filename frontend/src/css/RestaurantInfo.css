@@ -161,8 +161,8 @@
   padding: 0.4rem 0.8rem;
   border: 1px solid #444;
   border-radius: 6px;
-  background: #ff7f50;
-  color: white;
+  background: white;
+  color: black;
   font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -175,5 +175,5 @@
 .discount-button.selected {
   background-color: #ff7f50;
   color: white;
-  border-color: #ff7f50;
+  border-color: black;
 }
