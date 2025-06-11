@@ -18,8 +18,9 @@ const sampleRestaurants = {
     },
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80",
     menu: [
-      { name: "Grilled Salmon", price: "$18.90" },
-      { name: "Ribeye Steak", price: "$25.50" }
+      { name: "Steak Set", price: "21.00", originalPrice: "35.00" },
+      { name: "Seafood Set", price: "20.80", originalPrice: "32.00" },
+      { name: "Chicken Set", price: "21.00", originalPrice: "28.00" }
     ],
     reviews: [
       { user: "Alice", comment: "Amazing steak and cozy atmosphere!" },
@@ -104,12 +105,15 @@ function RestaurantInfo() {
       <div className="restaurant-content-right">
         {/* Menu */}
         <section className="info-section" ref={menuRef}>
-          <h3 className="section-title">Menu</h3>
+          <h3 className="section-title">Set Menu</h3>
           <ul className="menu-list">
             {restaurant.menu.map((item, idx) => (
               <li key={idx} className="menu-item">
-                <span>{item.name}</span>
-                <span className="menu-price">{item.price}</span>
+                <span className="menu-name">{item.name}</span>
+                <div className="menu-price-wrapper">
+                  <span className="discounted-price">MYR {item.price}</span>
+                  <span className="original-price">MYR {item.originalPrice}</span>
+                </div>
               </li>
             ))}
           </ul>

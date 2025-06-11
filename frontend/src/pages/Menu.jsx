@@ -4,47 +4,32 @@ import { useParams, useNavigate } from "react-router-dom";
 // Unique, accurate images per menu item for each restaurant!
 const restaurantMenus = {
   1: {
-    name: "Sunset Grill",
+    name: "Sunset Grill Set",
     menu: [
       {
         name: "Steak Set",
-        price: 21,
-        originalPrice: 35,
+        price: 21.00,
+        originalPrice: 35.00,
         discount: 40,
         time: "4pm - 6pm",
         img: "https://images.pexels.com/photos/675951/pexels-photo-675951.jpeg?auto=compress&w=400&h=200&fit=crop"
       },
       {
         name: "Seafood Set",
-        price: 20.8,
-        originalPrice: 32,
+        price: 20.80,
+        originalPrice: 32.00,
         discount: 35,
         time: "6pm - 8pm",
         img: "https://images.pexels.com/photos/566345/pexels-photo-566345.jpeg?auto=compress&w=400&h=200&fit=crop"
       },
       {
         name: "Chicken Set",
-        price: 21,
-        originalPrice: 28,
+        price: 21.00,
+        originalPrice: 28.00,
         discount: 25,
         time: "2pm - 5pm",
         img: "https://images.pexels.com/photos/2673353/pexels-photo-2673353.jpeg?auto=compress&w=400&h=200&fit=crop"
       },
-      {
-        name: "Grilled Pork Chop",
-        price: 22,
-        img: "https://images.pexels.com/photos/18861865/pexels-photo-18861865.jpeg?auto=compress&w=400&h=200&fit=crop"
-      },
-      {
-        name: "BBQ Ribs",
-        price: 27,
-        img: "https://images.pexels.com/photos/410648/pexels-photo-410648.jpeg?auto=compress&w=400&h=200&fit=crop"
-      },
-      {
-        name: "Garden Salad",
-        price: 13,
-        img: "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&w=400&h=200&fit=crop"
-      }
     ]
   },
   2: {
