@@ -111,8 +111,8 @@ function RestaurantInfo() {
               <li key={idx} className="menu-item">
                 <span className="menu-name">{item.name}</span>
                 <div className="menu-price-wrapper">
-                  <span className="discounted-price">MYR {item.price}</span>
-                  <span className="original-price">MYR {item.originalPrice}</span>
+                  <span className="discounted-price">AUD {item.price}</span>
+                  <span className="original-price">AUD {item.originalPrice}</span>
                 </div>
               </li>
             ))}
