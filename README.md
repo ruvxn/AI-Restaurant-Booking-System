@@ -11,4 +11,4 @@ To know more about the project's detail, check out our Notion page: https://www.
 The project is still on-going and is expected to wrap up at the end of the year. The following is the latest updates on the project.
 
 ### Design Overview
-[design overview](imgs/overview.png)
+<img width="1398" height="668" alt="overview" src="https://github.com/user-attachments/assets/8c427d48-5497-4ff4-b342-10c614d5147c" />
