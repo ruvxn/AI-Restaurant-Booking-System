@@ -1,0 +1,61 @@
+/* ========== Container for the Profile Page ========== */
+.partner-profile {
+  max-width: 700px;
+  margin: auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ========== Title Styling ========== */
+.partner-profile h2 {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 28px;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+/* ========== Section with All Profile Fields ========== */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ========== Each Profile Row ========== */
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.75rem;
+  font-size: 1rem;
+  color: #34495e;
+}
+
+/* Label Part of the Row */
+.profile-row span {
+  font-weight: 500;
+  color: #666;
+  width: 150px;
+}
+
+/* ========== Edit Button ========== */
+.edit-button {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.75rem 2rem;
+  background-color: #1e88e5;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #1565c0;
+}

@@ -1,0 +1,83 @@
+.discounts-table-container {
+  max-width: 700px;
+  margin: 0.5rem auto;
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.discounts-table-container h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.8rem;
+  color: #181818;
+}
+
+.discounts-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+.discounts-table th,
+.discounts-table td {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.discounts-table td:first-child {
+  padding-left: 2rem;
+}
+
+.discount-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.discount-label {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.discount-select {
+  padding: 0.45rem 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #1f1f1f;
+  color: white;
+  min-width: 90px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.discount-select:hover {
+  background: #333;
+}
+
+.accept-button {
+  display: block;
+  margin: 0 auto;
+  background-color: #ff512f;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.accept-button:hover {
+  background-color: #ff512f;
+}
