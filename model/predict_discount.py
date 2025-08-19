@@ -1,84 +1,60 @@
 import joblib
+import numpy as np
 import pandas as pd
-import sys
 import json
 
-def load_models():
-    """Load the preprocessor and model"""
-    try:
-        preprocessor = joblib.load("model/preprocessor.pkl")
-        xgb_model = joblib.load("model/xgb_historic_model.pkl")
-        return preprocessor, xgb_model
-    except Exception as e:
-        print(f"Error loading models: {e}", file=sys.stderr)
-        return None, None
+# Load pipeline once (at startup)
+MODEL_PATH = "customer_demand_pipeline.pkl"
+pipeline = joblib.load(MODEL_PATH)
 
-def calculate_discount(predicted_customers):
-    """Calculate discount based on predicted customers"""
-    if predicted_customers < 20:
+# Discount logic
+def compute_discount(predicted_customers: float, total_seats: int) -> int:
+    occupancy = predicted_customers / total_seats if total_seats > 0 else 0
+    if occupancy < 0.3:
         return 30
-    elif predicted_customers < 40:
-        return 20
-    elif predicted_customers < 60:
-        return 10
+    elif occupancy < 0.6:
+        return 15
     else:
         return 0
 
-def predict_discount(input_data):
-    """Main prediction function"""
-    try:
-        # Load models
-        preprocessor, xgb_model = load_models()
-        
-        if preprocessor is None or xgb_model is None:
-            raise Exception("Failed to load models")
-        
-        # Create DataFrame from input
-        test_input = pd.DataFrame([input_data])
-        
-        # Transform the input
-        X_test_input = preprocessor.transform(test_input)
-        
-        # Make prediction
-        predicted_customers = round(xgb_model.predict(X_test_input)[0])
-        
-        # Calculate discount
-        discount = calculate_discount(predicted_customers)
-        
-        return {
-            "predictedCustomers": int(predicted_customers),
-            "discount": f"{discount}%"
-        }
-        
-    except Exception as e:
-        print(f"Prediction error: {e}", file=sys.stderr)
-        # Return fallback values
-        return {
-            "predictedCustomers": 25,
-            "discount": "20%"
-        }
+def predict_discount(hour_record: dict) -> dict:
+    X = pd.DataFrame([hour_record])
+    predicted = pipeline.predict(X)[0]
+    discount = compute_discount(predicted, hour_record["total_seats"])
+    return {
+        "time": f"{hour_record['hour']:02d}:00",
+        "discount": discount
+    }
 
+# Example usage: generate discounts for a whole day
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python predict_discount.py '<json_input>'", file=sys.stderr)
-        sys.exit(1)
-    
-    try:
-        # Parse input JSON
-        input_json = sys.argv[1]
-        input_data = json.loads(input_json)
-        
-        # Make prediction
-        result = predict_discount(input_data)
-        
-        # Output result as JSON
-        print(json.dumps(result))
-        
-    except Exception as e:
-        print(f"Script error: {e}", file=sys.stderr)
-        # Output fallback result
-        fallback = {
-            "predictedCustomers": 25,
-            "discount": "20%"
+    base_context = {
+        "closing_time": 22,
+        "google_rating": 4.5,
+        "review_sentiment_score": 0.72,
+        "temperature": 18,
+        "average_bill_price": 25,
+        "total_seats": 80,
+        "distance_to_cbd_km": 1.5,
+        "weekday_index": 4,
+        "is_weekend": 0,
+        "day_of_week": "Friday",
+        "weather": "Clear",
+        "categories": "",
+        "local_events": "None",
+        "holiday": False
+    }
+
+    results = []
+    for hour in range(8, 23):  # 08:00–22:00
+        record = {
+            **base_context,
+            "hour": hour,
+            "is_lunch": 1 if 11 <= hour <= 14 else 0,
+            "is_dinner": 1 if 18 <= hour <= 21 else 0,
+            "reservations": 25 if 11 <= hour <= 14 else (40 if 18 <= hour <= 21 else 5)
         }
-        print(json.dumps(fallback))
+        results.append(predict_discount(record))
+
+    # Print the whole day as a JSON array
+    print(json.dumps(results, indent=2))
