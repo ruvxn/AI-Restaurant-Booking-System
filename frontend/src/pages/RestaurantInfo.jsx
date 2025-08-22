@@ -1,6 +1,7 @@
-import React, { useState, useRef } from "react";
+
 import { useNavigate, useParams } from "react-router-dom";
 import "../css/RestaurantInfo.css";
+import React, { useState, useRef, useEffect } from "react";
 
 const sampleRestaurants = {
   1: {
@@ -45,6 +46,43 @@ function RestaurantInfo() {
   const [date, setDate] = useState("");
   const [selectedDiscount, setSelectedDiscount] = useState(null);
 
+  // NEW: live discounts
+  const [liveDiscounts, setLiveDiscounts] = useState([]);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const base = import.meta.env.VITE_API_BASE || "";
+        const res = await fetch(`${base}/api/restaurants/${id}/discounts`);
+        const data = await res.json();
+        setLiveDiscounts(data?.discounts ?? []);
+      } catch (e) {
+        console.error("Failed to load discounts", e);
+        setLiveDiscounts([]); // fallback gracefully
+      }
+    }
+    load();
+  }, [id]);
+
+  const toRange = (hhmm) => {
+    const [h, m] = hhmm.split(":").map(Number);
+    const endH = (h + 1) % 24;
+    const fmt = (H,M) => {
+      const ampm = H < 12 ? "am" : "pm";
+      const h12 = ((H + 11) % 12) + 1;
+      return `${h12}:${String(M).padStart(2,"0")}${ampm}`;
+    };
+    return `${fmt(h,m)} - ${fmt(endH,m)}`;
+  };
+
+  // Build a normalized list of slots we can pass to the Menu page
+  const slots = (liveDiscounts.length ? liveDiscounts : restaurant.discounts).map(d => {
+    const discount = d.discount ?? d.percent;            // support both shapes
+    const is24h = typeof d.time === "string" && d.time.length === 5; // "08:00"
+    const label = is24h ? toRange(d.time) : d.time;      // "8:00am - 9:00am"
+    return { discount, label, time: d.time };
+  });
+
   if (!restaurant) return <div>Restaurant not found.</div>;
 
   return (
@@ -80,24 +118,35 @@ function RestaurantInfo() {
           <div className="available-discounts">
             <h4>Today's Available Discounts</h4>
             <div className="discount-buttons">
-              {restaurant.discounts.map((d, idx) => (
+              {(liveDiscounts.length ? liveDiscounts : restaurant.discounts).map((d, idx) => {
+              const percent = d.percent ?? d.discount;        // support old/new shapes
+              const label = d.time.includes(":") && d.time.length === 5
+                ? toRange(d.time)
+                : d.time;
+              return (
                 <button
                   key={idx}
                   className={`discount-button ${selectedDiscount === idx ? "selected" : ""}`}
                   onClick={() => setSelectedDiscount(idx)}
                 >
-                  {d.time} - {d.percent}%
+                  {label} - {percent}%
                 </button>
-              ))}
+              );
+             })}
             </div>
           </div>
 
+
           <button
             className="booking-next-button"
-            onClick={() => navigate(`/menu/${id}`)}
+            onClick={() => {
+              const selectedSlot = selectedDiscount != null ? slots[selectedDiscount] : null;
+              navigate(`/menu/${id}`, { state: { selectedSlot } });
+            }}
           >
             Next
           </button>
+
         </div>
       </div>
 

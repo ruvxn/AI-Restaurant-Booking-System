@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import '../css/Discounts.css';
+import React, { useEffect, useState } from "react";
+import "../css/Discounts.css";
 
 const defaultHours = [
   { time: "08:00", discount: 15 },
@@ -21,23 +21,100 @@ const defaultHours = [
 
 const discountOptions = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
 
-function Discounts() {
+function Discounts({ weekday = "Friday", totalSeats = 80 }) {
   const [hours, setHours] = useState(defaultHours);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState("");
+
+  const [saving, setSaving] = useState(false);
+  // Use Vite env var if provided; otherwise hit same-origin proxy (/api/*).
+  const API_BASE = import.meta.env.VITE_API_BASE || "";
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        setLoading(true);
+        setErr("");
+        const url = `${API_BASE}/api/discounts?weekday=${encodeURIComponent(
+          weekday
+        )}&total_seats=${encodeURIComponent(totalSeats)}`;
+
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        // Expect: [{ time: "08:00", discount: 15 }, ...]
+        const cleaned =
+          Array.isArray(data)
+            ? data
+                .map(d => ({
+                  time: String(d.time ?? ""),
+                  discount: Number(d.discount ?? 0)
+                }))
+                // Ensure chronological order just in case
+                .sort((a, b) => a.time.localeCompare(b.time))
+            : defaultHours;
+
+        if (!cancelled) setHours(cleaned);
+      } catch (e) {
+        console.warn("Failed to load discounts:", e);
+        if (!cancelled) {
+          setErr("Showing default discounts (live fetch failed).");
+          setHours(defaultHours);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [weekday, totalSeats, API_BASE]);
 
   const handleSelect = (index, newDiscount) => {
-    const updated = [...hours];
-    updated[index].discount = parseInt(newDiscount);
-    setHours(updated);
+    setHours(prev => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], discount: parseInt(newDiscount, 10) };
+      return updated;
+    });
   };
 
-  const handleAccept = () => {
-    console.log("Submitted discounts:", hours);
-    alert("Discounts submitted!");
+  const handleAccept = async () => {
+    try {
+      setSaving(true);
+      const restaurantId = 1; // Sunset Grill
+      const res = await fetch(`${API_BASE}/api/restaurants/${restaurantId}/discounts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(hours), // [{ time:"08:00", discount:50 }, ...]
+      });
+      if (!res.ok) throw new Error(`Save failed: ${res.status}`);
+      alert("Discounts saved!");
+    } catch (e) {
+      console.error(e);
+      alert("Failed to save discounts. Check console/server logs.");
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="discounts-table-container">
+        <h2>Set Discounts for Time Slots</h2>
+        <div>Loading discounts…</div>
+      </div>
+    );
+  }
 
   return (
     <div className="discounts-table-container">
       <h2>Set Discounts for Time Slots</h2>
+      {!!err && <div style={{ color: "#c33", marginBottom: 8 }}>{err}</div>}
       <table className="discounts-table">
         <thead>
           <tr>
@@ -47,11 +124,10 @@ function Discounts() {
         </thead>
         <tbody>
           {hours.map((slot, idx) => (
-            <tr key={idx}>
+            <tr key={slot.time || idx}>
               <td>{slot.time}</td>
               <td>
                 <div className="discount-wrapper">
-                  
                   <select
                     className="discount-select"
                     value={slot.discount}
@@ -67,7 +143,10 @@ function Discounts() {
           ))}
         </tbody>
       </table>
-      <button className="accept-button" onClick={handleAccept}>Accept</button>
+      <button className="accept-button" onClick={handleAccept} disabled={saving}>
+  {saving ? "Saving..." : "Accept"}
+</button>
+
     </div>
   );
 }

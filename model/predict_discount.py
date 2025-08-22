@@ -11,9 +11,9 @@ pipeline = joblib.load(MODEL_PATH)
 def compute_discount(predicted_customers: float, total_seats: int) -> int:
     occupancy = predicted_customers / total_seats if total_seats > 0 else 0
     if occupancy < 0.3:
-        return 30
+        return 10
     elif occupancy < 0.6:
-        return 15
+        return 50
     else:
         return 0
 
